@@ -5,7 +5,8 @@ export const level1 =
                 "avó",
                 "tia",
                 "pai",
-                "mãe"
+                "mãe",
+                
         ]
 
 export const level2 = [
