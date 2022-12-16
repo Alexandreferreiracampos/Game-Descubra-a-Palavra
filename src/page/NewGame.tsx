@@ -67,9 +67,13 @@ export default function NewGame() {
     <ImageBackground source={require(img)} style={styles.container}>
       <StatusBar style="light" />
       <View style={styles.container}>
-      <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-        <Text style={styles.textInput}>Descubra a palavra secreta</Text>
+      <View style={{flex:1, justifyContent:'center', alignItems:'center', top:60}}>
+      <ImageBackground source={require('../image/word.png')} style={{width:290, height:280, justifyContent:'center', alignItems:'center'}}>
+        <Text style={[styles.textInput, {color:Colors.title}]}>Descubra a</Text>
+        <Text style={[styles.textInput, {color:Colors.title}]}>palavra secreta</Text>
+        </ImageBackground>
       </View>
+      
       <View style={{flex:2, justifyContent:'center', alignItems:'center'}}>
       <Text style={styles.textInput}>Quantidade de letras</Text>
       <View style={styles.inputNumber}>
@@ -87,7 +91,7 @@ export default function NewGame() {
       </View>
 
       <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-      <TouchableOpacity style={styles.btJogar} onPress={()=>navigation.navigate('Game')}><Text style={styles.textInput}>Jogar</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.btJogar} onPress={()=>navigation.navigate('Game', {count})}><Text style={styles.textInput}>Jogar</Text></TouchableOpacity>
       </View>
       
       </View> 
@@ -100,7 +104,7 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems: 'center',
     justifyContent:'space-between',
-    
+        
   },
   inputNumber:{
     flexDirection:'row',
