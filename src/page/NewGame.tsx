@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/core';
 import { Audio } from 'expo-av';
 import {Colors} from '../styles/Colors';
 import { useState, useEffect } from 'react';
+import { level1 } from '../listWords/List';
 
 export default function NewGame() {
 
@@ -12,6 +13,7 @@ export default function NewGame() {
   const [sondback, setSoundBack] = useState(false);
   const [count, setCount] = useState(3);
   const [textNivel, setTextNivel] = useState('Iniciante');
+  const [list, setList] = useState(level1)
 
   const img = '../image/background1.png';
 
@@ -30,6 +32,7 @@ export default function NewGame() {
       setSoundBack(true)
   };
 
+  //Increment numero de letras
   const letterNumbers=(val:any)=>{
       if(val == '+'){
         if(count < 6){
@@ -42,6 +45,7 @@ export default function NewGame() {
       }
   }
 
+  //Texto dificuldade 
  useEffect(()=>{
 
   switch(count){
@@ -60,7 +64,7 @@ export default function NewGame() {
   }
  }, [count])
   
-  
+  //component para navegation
   const navigation = useNavigation();
 
   return (
@@ -91,7 +95,7 @@ export default function NewGame() {
       </View>
 
       <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-      <TouchableOpacity style={styles.btJogar} onPress={()=>navigation.navigate('Game', {count})}><Text style={styles.textInput}>Jogar</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.btJogar} onPress={()=>navigation.navigate('Game', {count, list})}><Text style={styles.textInput}>Jogar</Text></TouchableOpacity>
       </View>
       
       </View> 
