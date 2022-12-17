@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ImageBackground, FlatList, TouchableOpacity} from 'react-native';
 import { Colors } from '../styles/Colors';
-import { wordArray, teste } from '../functionGame/functions';
+import { wordArray} from '../functionGame/functions';
 
 
 const img = '../image/background2.png';
@@ -11,9 +11,35 @@ const img = '../image/background2.png';
 export default function Game( { route }) {
   
   //Recebe variavel com letras embaralhadas
-  const [word, setWord] = useState(['i','n','s','t','á','v','e','l'])
+  const [wordList, setWordList] = useState(route.params.list);
+  const [word, setWord] = useState([]);
+  const [typedWord, setTypeWord] = useState('');
 
-console.log(teste(1))
+  //caputra todas as letras digitadas
+  const captureLetters=(val:any)=>{
+    if(typedWord.length < word.length){
+      setTypeWord(typedWord + val)
+    }   
+    
+}
+
+//verificar se a palavra digitada esta correta
+  useEffect(()=>{
+    if(wordList[0] == typedWord){
+      console.log('certo')
+      setTypeWord('')
+    }if(wordList[0].length == typedWord.length && wordList[0] != typedWord){
+      console.log('Errado')
+      setTypeWord('')
+    }
+  },[typedWord])
+
+  //embaralha a palavra no array
+  useEffect(()=>{
+    setWord(wordArray(wordList[0]))
+    console.log(wordList[0])
+  },[])
+
  
   var corFlatlist = 1;
   return (
@@ -27,7 +53,7 @@ console.log(teste(1))
       </View>
       <View style={styles.containerInput}>
       <ImageBackground source={require('../image/containerWord.png')} style={{width:'100%', height:'80%', justifyContent:'center', alignItems:'center'}} >
-        <Text>Tes</Text>
+        <Text style={styles.textInput}>{typedWord}</Text>
       </ImageBackground>
       </View>
       <View style={styles.containerInput}>
@@ -37,7 +63,8 @@ console.log(teste(1))
                  data={word}
                  renderItem={({ item }) =>
                  
-                 <TouchableOpacity style={[styles.inputText, {backgroundColor: corFlatlist++ % 2 === 0 ? 'rgb(86,31,179)' : 'rgb(0,158,222)'}]} >
+                 <TouchableOpacity style={[styles.inputText, {backgroundColor: corFlatlist++ % 2 === 0 ? 'rgb(86,31,179)' : 'rgb(0,158,222)'}]} 
+                 onPress={()=>captureLetters(item)}>
                   <Text style={{color:'white', fontSize:20, fontWeight:'bold'}}>{item}</Text>
                   </TouchableOpacity>
                 }
@@ -91,5 +118,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 1.22,
     elevation: 4, 
-}
+},
+textInput:{
+  fontSize:35,
+  fontWeight:'bold',
+  color:Colors.title,
+  bottom:20
+},
 });

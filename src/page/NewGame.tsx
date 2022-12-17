@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/core';
 import { Audio } from 'expo-av';
 import {Colors} from '../styles/Colors';
 import { useState, useEffect } from 'react';
-import { level1 } from '../listWords/List';
+import { level6 } from '../listWords/List';
 
 export default function NewGame() {
 
@@ -13,7 +13,7 @@ export default function NewGame() {
   const [sondback, setSoundBack] = useState(false);
   const [count, setCount] = useState(3);
   const [textNivel, setTextNivel] = useState('Iniciante');
-  const [list, setList] = useState(level1)
+  const [list, setList] = useState(level6)
 
   const img = '../image/background1.png';
 
