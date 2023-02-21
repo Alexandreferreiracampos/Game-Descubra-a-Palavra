@@ -4,20 +4,24 @@ export const wordArray=(val)=>{
         for(var i=0; i < val.length; i++){
 
             texto.push(val.substring(i,i+1))  
-            
-            if(i == val.length - 1){
-                for (let i = val.length - 1; i > 0; i--) {
-            
-                    const j = Math.floor(Math.random() * (i + 1));
-                    
-                    [val[i], val[j]] = [val[j], val[i]];
-                }
-               
-                return val;
-                
-            }
-    }
+                  
+          }
+          
+              
+    return embaralhar(texto);
 }
+
+const embaralhar=(arr:any)=> {
+            
+    for (let i = arr.length - 1; i > 0; i--) {
+            
+        const j = Math.floor(Math.random() * (i + 1));
+        
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+   
+    return arr;
+   }
 
 export const teste=(val)=>{
     

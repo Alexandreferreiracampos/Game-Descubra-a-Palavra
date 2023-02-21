@@ -3,17 +3,60 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ImageBackground, FlatList, TouchableOpacity} from 'react-native';
 import { Colors } from '../styles/Colors';
 import { wordArray, teste } from '../functionGame/functions';
+import { Feather } from '@expo/vector-icons'; 
 
 
 const img = '../image/background2.png';
-//<Text>Pagina {route.params.count}</Text>
 
 export default function Game( { route }) {
-  
-  //Recebe variavel com letras embaralhadas
-  const [word, setWord] = useState(['i','n','s','t','á','v','e','l'])
+ 
+  //recebe todas as palavras da lista pelo paremetro route
+  const [wordList, setWordList] = useState(route.params.list);
+  const [viewInput, setViewInput] = useState('');
+  const [InputBox, setInputBox] = useState([]);
+  const [palavra, setPalavra] = useState(0);
 
-console.log(teste(1))
+   //Recebe variavel com letras embaralhadas
+  const [word, setWord] = useState(wordArray(wordList[palavra]));
+
+  useEffect(()=>{
+    creatLetterInputBox(palavra)
+  },word)
+
+  //Criar as box para entrada das letras digitadas
+  const creatLetterInputBox=(val:any)=>{
+    let box = [];
+    for(let i=0; wordList[val].length > i; i++){
+      box.push(''.substring(i,i+1))
+      setInputBox(box)
+    }
+  }
+
+  const validarPalavra=(val:any)=>{
+    
+    const palavraDigitada = viewInput + val;
+    setViewInput(palavraDigitada);
+    let inputBox:any = InputBox;
+    inputBox[viewInput.length] = val;
+
+
+    //verifica a palavra digitada
+    if(wordList[palavra].length == palavraDigitada.length && wordList[palavra] != palavraDigitada){
+      setViewInput('')
+      setInputBox([])
+      creatLetterInputBox(palavra)
+    }
+    if(palavraDigitada == wordList[palavra]){
+      setViewInput('')
+      setWord(wordArray(wordList[palavra + 1]))
+      setPalavra(palavra + 1)
+      creatLetterInputBox(palavra)
+    }
+
+   
+    
+
+  }
  
   var corFlatlist = 1;
   return (
@@ -26,9 +69,19 @@ console.log(teste(1))
         <Text style={{color:Colors.text}}>Nivel: {route.params.count}</Text>
       </View>
       <View style={styles.containerInput}>
-      <ImageBackground source={require('../image/containerWord.png')} style={{width:'100%', height:'80%', justifyContent:'center', alignItems:'center'}} >
-        <Text>Tes</Text>
-      </ImageBackground>
+      <FlatList
+                 data={InputBox}
+                 renderItem={({ item }) =>
+                  <View style={styles.TextView}>
+                  <Text style={{color:'black', fontSize:20, fontWeight:'bold'}}>{item}</Text>
+                  </View>
+                }
+                   keyExtractor={item => item.item}
+                   horizontal={false}
+                   numColumns={8}
+                
+              />
+          
       </View>
       <View style={styles.containerInput}>
       <ImageBackground source={require('../image/containerInput.png')} style={{width:'100%', height:'80%',left:4, justifyContent:'center', alignItems:'center'}} >
@@ -37,9 +90,14 @@ console.log(teste(1))
                  data={word}
                  renderItem={({ item }) =>
                  
-                 <TouchableOpacity style={[styles.inputText, {backgroundColor: corFlatlist++ % 2 === 0 ? 'rgb(86,31,179)' : 'rgb(0,158,222)'}]} >
+                 <TouchableOpacity style={[
+                  styles.inputText, {backgroundColor: corFlatlist++ % 2 === 0 ? 'rgb(86,31,179)' : 'rgb(0,158,222)'}
+                  ]} 
+                  onPress={()=>validarPalavra(item)}>
                   <Text style={{color:'white', fontSize:20, fontWeight:'bold'}}>{item}</Text>
+                  
                   </TouchableOpacity>
+                  
                 }
                    keyExtractor={item => item.item}
                    horizontal={false}
@@ -47,6 +105,7 @@ console.log(teste(1))
                    
                    
               />
+              
       </View>
       </ImageBackground>
       </View>
@@ -91,5 +150,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 1.22,
     elevation: 4, 
+},
+TextView:{
+  width:40, 
+  height:40, 
+  margin:5, 
+  borderWidth: 0.9,
+  borderColor: 'rgba(0,0,0,0.30)',
+  backgroundColor:'white',
+  borderRadius:10, 
+  justifyContent:'center', 
+  alignItems:'center',
+  shadowColor: "black",
+  shadowOpacity: 0.22,
+  shadowRadius: 1.22,
+  elevation: 4, 
 }
 });

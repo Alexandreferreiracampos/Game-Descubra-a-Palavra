@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/core';
 import { Audio } from 'expo-av';
 import {Colors} from '../styles/Colors';
 import { useState, useEffect } from 'react';
-import { level1 } from '../listWords/List';
+import { DBList } from '../listWords/List';
 
 export default function NewGame() {
 
@@ -13,7 +13,7 @@ export default function NewGame() {
   const [sondback, setSoundBack] = useState(false);
   const [count, setCount] = useState(3);
   const [textNivel, setTextNivel] = useState('Iniciante');
-  const [list, setList] = useState(level1)
+  const [list, setList] = useState()
 
   const img = '../image/background1.png';
 
@@ -35,7 +35,7 @@ export default function NewGame() {
   //Increment numero de letras
   const letterNumbers=(val:any)=>{
       if(val == '+'){
-        if(count < 6){
+        if(count < 8){
           setCount(count + 1);
         } 
       }else{
@@ -51,15 +51,27 @@ export default function NewGame() {
   switch(count){
     case 3:
       setTextNivel("Iniciante");
+      setList(DBList[0]);
       break
     case 4:
       setTextNivel("Médio");
+      setList(DBList[1]);
       break
     case 5:
       setTextNivel("Difícil");
+      setList(DBList[2]);
       break
     case 6:
+      setTextNivel("Difícil");
+      setList(DBList[3]);
+      break
+    case 7:
       setTextNivel("Será que você é capaz?");
+      setList(DBList[4]);
+      break
+    case 8:
+      setTextNivel("Será que você é capaz?");
+      setList(DBList[5]);
       break
   }
  }, [count])
