@@ -11,7 +11,7 @@ export const wordArray=(val)=>{
     return embaralhar(texto);
 }
 
-const embaralhar=(arr:any)=> {
+export const embaralhar=(arr:any)=> {
             
     for (let i = arr.length - 1; i > 0; i--) {
             

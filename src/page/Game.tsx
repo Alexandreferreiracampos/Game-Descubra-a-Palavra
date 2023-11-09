@@ -2,13 +2,16 @@ import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ImageBackground, FlatList, TouchableOpacity} from 'react-native';
 import { Colors } from '../styles/Colors';
-import { wordArray, teste } from '../functionGame/functions';
+import { wordArray, embaralhar, teste } from '../functionGame/functions';
 import { Feather } from '@expo/vector-icons'; 
-
+import { useNavigation } from '@react-navigation/core';
 
 const img = '../image/background2.png';
 
+
 export default function Game( { route }) {
+
+  const navigation = useNavigation();
  
   //recebe todas as palavras da lista pelo paremetro route
   const [wordList, setWordList] = useState(route.params.list);
@@ -44,17 +47,19 @@ export default function Game( { route }) {
     if(wordList[palavra].length == palavraDigitada.length && wordList[palavra] != palavraDigitada){
       setViewInput('')
       setInputBox([])
+      setWord(embaralhar(word))
       creatLetterInputBox(palavra)
+
     }
     if(palavraDigitada == wordList[palavra]){
       setViewInput('')
       setWord(wordArray(wordList[palavra + 1]))
       setPalavra(palavra + 1)
       creatLetterInputBox(palavra)
-    }
-
-   
-    
+      if(palavra == wordList.length - 2){
+        navigation.navigate('NewGame');
+      }
+    }  
 
   }
  
@@ -73,7 +78,7 @@ export default function Game( { route }) {
                  data={InputBox}
                  renderItem={({ item }) =>
                   <View style={styles.TextView}>
-                  <Text style={{color:'black', fontSize:20, fontWeight:'bold'}}>{item}</Text>
+                  <Text style={{color:'black', fontSize:17, fontWeight:'bold'}}>{item}</Text>
                   </View>
                 }
                    keyExtractor={item => item.item}

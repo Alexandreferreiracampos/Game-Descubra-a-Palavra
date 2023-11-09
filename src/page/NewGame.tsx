@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, TextComponent } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { Audio } from 'expo-av';
 import {Colors} from '../styles/Colors';
@@ -87,6 +87,7 @@ export default function NewGame() {
       <ImageBackground source={require('../image/word.png')} style={{width:290, height:280, justifyContent:'center', alignItems:'center'}}>
         <Text style={[styles.textInput, {color:Colors.title}]}>Descubra a</Text>
         <Text style={[styles.textInput, {color:Colors.title}]}>palavra secreta</Text>
+        <Text style={{color:'red', fontSize:30}} >Alexandre</Text>
         </ImageBackground>
       </View>
       
